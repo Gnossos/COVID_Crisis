@@ -1,0 +1,192 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  12pt,
+]{book}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={COVID Crisis},
+  pdfauthor={Marshall Feldman},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage{longtable,booktabs}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\usepackage{booktabs}
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newenvironment{cslreferences}%
+  {\setlength{\parindent}{0pt}%
+  \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces}%
+  {\par}
+
+\title{COVID Crisis}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Personal notes about configuring and using digital tools, as well as conducting the research.}
+\author{Marshall Feldman}
+\date{2020-05-11}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\listoftables
+\listoffigures
+This is an \href{http://rmarkdown.rstudio.com}{R Markdown} notebook containing my notes on administering R, RStudio, and Bookdown for my research. It's currently organized by date, but I'm trying to find ways to use tags and crossreferences.
+
+\hypertarget{may-5-2020}{%
+\chapter{May 5, 2020}\label{may-5-2020}}
+
+I tried to get this stuff working and had to uninstall, reinstall, delete, recreate, and otherwise try and try again. Along the way, here's some stuff I learned:
+
+\begin{itemize}
+\tightlist
+\item
+  RStudio will not display a Build tab and button unless the YAML in index.Rmd has a ``site: bookdown::bookdown\_site'' statement.
+\item
+  It's not a good idea to use the \href{https://rstudio.github.io/packrat/}{Packrat package} dependency management system for portable projects. This is because Packrat achieves its portability by installing all the packages it will need into the individual directory housing the project. In other words, if you need the same packages for ten projects, you'll use ten times the space than you would if the projects shared the packages without redundancy.
+\end{itemize}
+
+\hypertarget{may-6-2020}{%
+\chapter{May 6, 2020}\label{may-6-2020}}
+
+\hypertarget{keeping-chapters-in-a-subdirectory}{%
+\section{Keeping chapters in a subdirectory}\label{keeping-chapters-in-a-subdirectory}}
+
+See this post:
+\href{https://github.com/rstudio/bookdown/pull/601}{\texttt{Allow\ both\ \textasciigrave{}rmd\_files\textasciigrave{}\ and\ \textasciigrave{}rmd\_subdir\textasciigrave{}\ config\ parameters}}.
+It suggests using \texttt{rmd\_files{[}"index.Rmd"{]}} and \texttt{rmd\_subdir{[}"chapters"{]}} to put \texttt{index.Rmd} and the \texttt{chapters}directory in the build path. THIS WORKS!
+
+\hypertarget{citations-zotero-rstudio-and-the-citr-addin}{%
+\section{Citations: Zotero, RStudio, and the Citr Addin}\label{citations-zotero-rstudio-and-the-citr-addin}}
+
+The original index.Rmd manually creates a bib file called packages.bib with a static list of packages
+loaded at the start of the document.
+Roel M. Hogervorst's \href{https://www.r-bloggers.com/writing-manuscripts-in-rstudio-easy-citations/}{Writing manuscripts in Rstudio, easy citations} uses Zotero
+and creates the packages list dynamically, from what's loaded.
+Also see \href{http://r.iresmi.net/2019/02/02/bibliography-with-knitr-cite-your-references-and-packages/}{Bibliography with knitr : cite your references and packages}.
+
+After reading these posts, I started to set up BibLaTeX in Zotero and citr in RStudio. But then I learned (on the Zotero forum) about rbbt, which seems similar to citr, at least in functionality.
+
+So I got rid of the original code. But here it is for posterity:
+
+After doing this, I checked Zotero to see that I had the latest version of \href{https://github.com/retorquere/zotero-better-bibtex}{Better BibTeX}. Then I created a link between my *Projects/COVID-19 collection in Zotero and zotero.bib in the project directory. I also went back and changed the bib setting in the project's yaml (\texttt{index.Rmd}).
+
+This didn't break anything, but nothing appears in the references. Maybe I have to cite something. I'll try this later on.
+
+TODO: Review the differences between Rmd files and R Notebooks.
+
+TODO: Read about \href{https://yihui.org/knitr/demo/child/}{child documents}.
+
+TODO: Compare citr w/ rbbt.
+
+\hypertarget{introduction}{%
+\chapter{Introduction}\label{introduction}}
+
+According to David Harvey, modernism ended at 3 pm, on March 16, 1972, when demolition of the Pruitt-Igoe housing project in St.~Louis, Missouri began (Harvey \protect\hyperlink{ref-HarveyConditionPostmodernityEnquiry1991}{1991}).
+This was also roughly the same time the Fordist regime of accumulation, which had been dominant in the West, was coming to an end. In academic economics, the University of Chicago's Robert Lucas, Jr.~was about launch a conservative assault against Keynesian theory, while in Chile Augsto Pinochet led an actual assault on La Moneda and overthrew Chile's democratially elected president, Salvadore Allende. Within a few years Pinochet's government, advised by a group of economists called the ``Chicago Boys'' because they had learned their ideas at the University of Chicago, would completely overhall the Chilean economy.
+In the core of the global economy, Margaret Thatcher and Ronald Reagan would soon follow Pinochet,and proceed to dismantle their respective Keynesian welfare states.This process continued through the 1990s.
+Postmodernism also gained ascendancy in academia, in the wider culture, and in human settlements.
+
+TODO: CITE SOURCES
+commenced, and neoliberalism began its assent to hegemony over the capitalist world, which in due time would be practically the entire world itself.
+
+Readers might be wondering what does all this have to do with the 2020 COVID crisis? Well consider this. In the 1950's the USA and USSR led a global effort to eradicate smallpox.
+TODO: GET CITATIONS AND LEARN MORE ABOUT THIS
+In the midst of the Cold War, the two superpowers ascribed to seemingly opposing ideologies. But beneath this veneer, both indeologies extolled progress, truth, science.\footnote{This is not to say the two were above superstition or spreading false propaganda. TODO: MAYBE ADD MORE HERE.}
+This presented enough common ground for the two to join together to lead (or at least compete for the leadership of) the United Nations in global effort to erradicate smallpox.
+
+\hypertarget{location-quotients}{%
+\chapter{Location Quotients}\label{location-quotients}}
+
+\hypertarget{data-sources}{%
+\section{Data Sources}\label{data-sources}}
+
+\hypertarget{demographic-data}{%
+\subsection{Demographic Data}\label{demographic-data}}
+
+Demographic data come from various sources, depending of the geographic area(s) being analyzed.
+Population estimates, in particular, are of key importance for estimating per-capita rates.
+
+International population and other demographic data are from the United Nations World Population Prospects 2019 United Nations Department of Economic and Social Affairs, Population Division (\protect\hyperlink{ref-UnitedNationsDepartmentofEconomicandSocialAffairsPopulationDivisionWorldPopulationProspects2019c}{2019}\protect\hyperlink{ref-UnitedNationsDepartmentofEconomicandSocialAffairsPopulationDivisionWorldPopulationProspects2019c}{a}). Every two years this program prepares population data for a 150-year window, with the most recent, 2019 edition including historic estimates for 1950-2020 and future projections for 2020-2100 United Nations Department of Economic and Social Affairs, Population Division (\protect\hyperlink{ref-UnitedNationsDepartmentofEconomicandSocialAffairsPopulationDivisionWorldPopulationProspects2019a}{2019}\protect\hyperlink{ref-UnitedNationsDepartmentofEconomicandSocialAffairsPopulationDivisionWorldPopulationProspects2019a}{b}).
+
+\hypertarget{interpolating-international-population-estimates}{%
+\section{Interpolating International Population Estimates}\label{interpolating-international-population-estimates}}
+
+\hypertarget{refs}{}
+\begin{cslreferences}
+\leavevmode\hypertarget{ref-HarveyConditionPostmodernityEnquiry1991}{}%
+Harvey, David. 1991. \emph{The Condition of Postmodernity: An Enquiry into the Origins of Cultural Change}. Wiley-Blackwell.
+
+\leavevmode\hypertarget{ref-UnitedNationsDepartmentofEconomicandSocialAffairsPopulationDivisionWorldPopulationProspects2019c}{}%
+United Nations Department of Economic and Social Affairs, Population Division. 2019a. ``World Population Prospects 2019.'' Report. United Nations Department of Economic and Social Affairs, Population Dynamics. 2019. \url{https://population.un.org/wpp/}.
+
+\leavevmode\hypertarget{ref-UnitedNationsDepartmentofEconomicandSocialAffairsPopulationDivisionWorldPopulationProspects2019a}{}%
+---------. 2019b. ``World Population Prospects 2019: Methodology of the United Nations Population Estimates and Projections.'' (ST/ESA/SER.A/425). \url{https://population.un.org/wpp/Publications/Files/WPP2019_Methodology.pdf}.
+\end{cslreferences}
+
+\end{document}
