@@ -1,0 +1,18 @@
+--- 
+title: "COVID Crisis"
+subtitle: "A Geographical Political Economy"
+author: "Marshall M. A. Feldman"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+toc-depth: 2
+lof: True
+lot: True
+bibliography: [zotero.bib, packages.bib]
+#biblio-style: apalike
+csl: chicago-author-date.csl
+link-citations: yes
+description: "This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook."
+---
+
+

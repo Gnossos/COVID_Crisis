@@ -1,0 +1,7 @@
+book_filename: "COVIDCrisis"
+delete_merged_file: true
+rmd_files: ["index.Rmd"]
+rmd_subdir: ["chapters"]
+language:
+  ui:
+    chapter_name: "Chapter "

@@ -1,0 +1,49 @@
+---
+title: "Research Notebook"
+subtitle: "Personal notes about configuring and using digital tools, as well as conducting the research."
+author: "Marshall Feldman"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) notebook containing my notes on administering R, RStudio, and Bookdown for my research. It's currently organized by date, but I'm trying to find ways to use tags and crossreferences. 
+
+# May 5, 2020
+I tried to get this stuff working and had to uninstall, reinstall, delete, recreate, and otherwise try and try again. Along the way, here's some stuff I learned:
+
+* RStudio will not display a Build tab and button unless the YAML in index.Rmd has a "site: bookdown::bookdown_site" statement.
+* It's not a good idea to use the  [Packrat package](https://rstudio.github.io/packrat/) dependency management system for portable projects. This is because Packrat achieves its portability by installing all the packages it will need into the individual directory housing the project. In other words, if you need the same packages for ten projects, you'll use ten times the space than you would if the projects shared the packages without redundancy.
+
+# May 6, 2020
+
+## Keeping chapters in a subdirectory
+See this post: 
+[``Allow both `rmd_files` and `rmd_subdir` config parameters``](https://github.com/rstudio/bookdown/pull/601).
+It suggests using `rmd_files["index.Rmd"]` and `rmd_subdir["chapters"]` to put `index.Rmd` and the `chapters`directory in the build path. THIS WORKS!
+
+## Citations: Zotero, RStudio, and the Citr Addin
+The original index.Rmd manually creates a bib file called packages.bib with a static list of packages
+loaded at the start of the document.
+Roel M. Hogervorst's [Writing manuscripts in Rstudio, easy citations](https://www.r-bloggers.com/writing-manuscripts-in-rstudio-easy-citations/) uses Zotero
+and creates the packages list dynamically, from what's loaded.
+Also see [Bibliography with knitr : cite your references and packages](http://r.iresmi.net/2019/02/02/bibliography-with-knitr-cite-your-references-and-packages/).
+
+After reading these posts, I started to set up BibLaTeX in Zotero and citr in RStudio. But then I learned (on the Zotero forum) about rbbt, which seems similar to citr, at least in functionality.
+
+So I got rid of the original code. But here it is for posterity:
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
+After doing this, I checked Zotero to see that I had the latest version of [Better BibTeX](https://github.com/retorquere/zotero-better-bibtex). Then I created a link between my *Projects/COVID-19 collection in Zotero and zotero.bib in the project directory. I also went back and changed the bib setting in the project's yaml (```index.Rmd```).
+
+This didn't break anything, but nothing appears in the references. Maybe I have to cite something. I'll try this later on.
+
+TODO: Review the differences between Rmd files and R Notebooks.
+
+TODO: Read about [child documents](https://yihui.org/knitr/demo/child/).
+
+TODO: Compare citr w/ rbbt.

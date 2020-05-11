@@ -1,0 +1,29 @@
+---
+title: COVID Crisis
+date: "`r Sys.Date()`"
+authors:
+  - name: Marshall M. A. Feldman
+    email: marsh@uri.edu
+    address: The University of Rhode Island
+# Stuff from OUP template deleted here: abstract, acknowledgements, key words 
+fontsize: 12pt
+spacing: halfline # could also be oneline
+#classoptions:
+#  - endnotes
+#bibliography: mybibfile.bib
+output: rticles::oup_article
+---
+
+# Location Quotients
+
+## Data Sources
+
+### Demographic Data
+Demographic data come from various sources, depending of the geographic area(s) being analyzed.
+Population estimates, in particular, are of key importance for estimating per-capita rates.
+
+International population and other demographic data are from the United Nations World Population Prospects 2019 @UnitedNationsDepartmentofEconomicandSocialAffairsPopulationDivisionWorldPopulationProspects2019c. Every two years this program prepares population data for a 150-year window, with the most recent, 2019 edition including historic estimates for 1950-2020 and future projections for 2020-2100 @UnitedNationsDepartmentofEconomicandSocialAffairsPopulationDivisionWorldPopulationProspects2019a.
+
+## Interpolating International Population Estimates
+
+
