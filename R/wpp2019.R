@@ -10,16 +10,16 @@ get_wpp2019 <- function(LocID = NULL, Location = NULL, Time = NULL, File_Number 
   
   #' There are at least ten variations of CSV files from the 2019 UN WPP, and many, many more .XLS files.
   csv_files <- c(
-    "WPP2019_TotalPopulationBySex",
-    "WPP2019_PopulationByAgeSex_Medium",
-    "WPP2019_PopulationByAgeSex_OtherVariants",
-    "WPP2019_PopulationBySingleAgeSex_1950-2019",
-    "WPP2019_PopulationBySingleAgeSex_2020-2100",
-    "WPP2019_Fertility_by_Age",
-    "WPP2019_Period_Indicators_Medium",
-    "WPP2019_Period_Indicators_OtherVariants",
-    "WPP2019_Life_Table_Medium",
-    "WPP2019_Life_Table_OtherVariants"
+    "WPP2019_TotalPopulationBySex.csv",
+    "WPP2019_PopulationByAgeSex_Medium.csv",
+    "WPP2019_PopulationByAgeSex_OtherVariants.csv",
+    "WPP2019_PopulationBySingleAgeSex_1950-2019.csv",
+    "WPP2019_PopulationBySingleAgeSex_2020-2100.csv",
+    "WPP2019_Fertility_by_Age.csv",
+    "WPP2019_Period_Indicators_Medium.csv",
+    "WPP2019_Period_Indicators_OtherVariants.csv",
+    "WPP2019_Life_Table_Medium.csv",
+    "WPP2019_Life_Table_OtherVariants.csv"
   )
   
   #' Construct the database name
@@ -29,7 +29,7 @@ get_wpp2019 <- function(LocID = NULL, Location = NULL, Time = NULL, File_Number 
   input <- if (file.exists(UN_file_name)) {
     UN_file_name
   } else {
-    paste0("https://population.un.org/wpp/Download/Files/1_Indicators%20(Standard)/CSV_FILES/",csv_files[File_Number],".csv")
+    paste0("https://population.un.org/wpp/Download/Files/1_Indicators%20(Standard)/CSV_FILES/",csv_files[File_Number])
     
   }
   
