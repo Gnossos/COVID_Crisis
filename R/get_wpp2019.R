@@ -1,6 +1,6 @@
 #' get_wpp2019 -- get UN World Population Projections - 2019 data
 
-get_wpp2019 <- function(LocID = NULL, Location = NULL, Time = NULL, File_Number = 1, Variant = "Medium" ){
+get_wpp2019 <- function(LocID = NULL, Location = NULL,Time = NULL, File_Number = 1, Variant = "Medium" ){
   #' United Nations Department of Economic and Social Affairs,
   #'         Population Dynamics, World Population Prospects 2019.
   #'         https://population.un.org/wpp/Download/Standard/CSV/  
@@ -29,16 +29,25 @@ get_wpp2019 <- function(LocID = NULL, Location = NULL, Time = NULL, File_Number 
   
   #' Retrieve the data object if necessary
   #' This partly comes from the data.table vignette (https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html)
-  #' If 
-  if (!exists(UN_object_name))                      # Don't bother if it's already loaded
+  
+  if (!exists(UN_object_name)) 
     if (file.exists(UN_local_file_name))
-      UN_object <- readRDS(UN_local_file_name) # If it's saved as data but not loaded, retrieve it.
-    else {                                          # Otherwise, download it from the UN and save a copy
+      UN_object <- readRDS(UN_local_file_name)    # If it's saved as data but not loaded, retrieve it.
+    else {                                        # Otherwise, download it from the UN and save a copy
       UN_object <- fread(paste0(UN_root_url,csv_files[File_Number]))
       saveRDS(UN_object, file = UN_local_file_name)
-    }
+      }
+
+#' TODO: This is a bit crude because selecting for Location overrides LocID unless Location is a subset of LocID.  
+#' Select for LocID
+if (!is.null(LocID))
+    UN_object <- UN_object[eval(UN_object[, LocID %in% ..LocID])]
   
+#' Select for Location
+  if (!is.null(Location))
+    UN_object <- UN_object[eval(UN_object[, Location %in% ..Location])]
   
+UN_object
   
   
   
