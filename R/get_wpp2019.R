@@ -47,9 +47,16 @@ if (!is.null(LocID))
   if (!is.null(Location))
     UN_object <- UN_object[eval(UN_object[, Location %in% ..Location])]
   
+#' Select the time(s)
+#' 
+if (!is.null(Time))
+  UN_object <- Un_object[, Time %in% ..Time]
+  
 UN_object
   
-  
+#' To get a data table w/ LocID's & Locations, try this:
+#' x <- unique(get_wpp2019()[,.(LocID,Location)])
+#' 
   
   
  
