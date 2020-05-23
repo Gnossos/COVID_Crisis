@@ -1,0 +1,51 @@
+---
+title: "Interpolation"
+output: html_notebook
+date: "`r Sys.Date()`"
+bibliography: [../zotero.bib, ../packages.bib]
+csl: ../chicago-author-date.csl
+link-citations: yes
+---
+
+## Prologue
+This is the first in a series of subject-specific notes kept in the ./notes folder of this project directory. This one also uses [Zotero](https://www.zotero.org/) for citations. There seem to be two approaches for doing this in RStudio. Both entail using [Better BibTeX for Zotero](https://retorque.re/zotero-better-bibtex/) to connect a Zotero collection to a *.bib file in the R project, typically in the project's home directory. [Horgervorst](https://www.r-bloggers.com/writing-manuscripts-in-rstudio-easy-citations/) [-@hogervorstWritingManuscriptsRstudioEasy2017] uses the [citr RStudio addin](https://github.com/crsh/citr), but the [rbbt interface](https://github.com/paleolimbot/rbbt) potentially offers a more powerful approach. 
+
+## Introduction
+These notes describe explorations in interpolation based on Andrie de Vries' -@devriesInterpolationSmoothingFunctionsBase2015 investigations of different interpolation methods. At least the initial investigations here replicate these methods using 2019 United Nations World Population Prospects (WPP) data [@unitednationsdepartmentofeconomicandsocialaffairspopulationdivisionWorldPopulationProspects20192019a].
+
+### Summary of de Vries' Investigation
+De Vries generated 1,000 data points in a sinesoidal pattern with normally distributed deviations. He then approximated these data with these functions:
+
+* [approx()](https://www.math.ucla.edu/~anderson/rw1001/library/base/html/approxfun.html)
+* spline()
+* [smooth()](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/smooth)
+* [loess()](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/loess)
+* [smooth.spline()](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/smooth.spline)
+
+For loess, he used two different smoothing parameters, 0.1 and 0.5. The larger the parameter, the more points it uses to estimate its fit.
+
+He then plotted the approximated fits against the original data. By inpsecting these plots he concludes that smooth.spline() and loess with tuning parameter = 0.1 did best.
+He bases his judgement of the different methods on graphs in which the smooths overlay the original data.
+
+### Comment
+De Vries sinesoidal data resemble some, but certainly not all, data patterns one encounters in the wild. Moreover, he is concerned with the overall fit, rather than the goodness of fit for a specific point or for points in a particular region.
+
+Here I am concerned to interpolate points within a relatively narrow range of nearby points. Moreover, the nearby points are themselves estimates or projections. The estimates only go up to 2019, after which the WPP data switch to projections. My main concern is interpolating values for these projections.  
+
+## Data
+Data for this study are from the United Nations World Population Prospects 2019 [@unitednationsdepartmentofeconomicandsocialaffairspopulationdivisionWorldPopulationProspects20192019] "Standard Projections" files in CSV format. In particular, they are for total population from the ["all variants" Total population by sex, annually from 1950 to 2100" file](All variants (CSV, 21.35 MB)).
+
+The file includes several variants of the data. This analysis uses only the most commonly used one, the so-called "medium variant." Moreover, the analysis is confined to only three geographic areas -- Sweden, the United States, and the world -- and the time period from 1950 to 2020.
+
+The estimates and projections are generally for mid-year, July 1. For several dates up until today, `r Sys.Date()`, I compare the interpolated values with the estimated ones.  Sometimes, if "observed" values are also available, I compare all three values: observed, estimated, and interpolated.
+
+I wrote a function, `get_wpp2019.R()`, that retrieves any of ten CSV files from the UN's web site. The function retrieves the dataset and stores it in the ./data folder. It then customizes the selection returned to the workspace of the calling program. In this case, I used it to create a data table containing the medium-variant entries for Sweden, the US, and the World.
+
+
+
+
+## References
+
+
+
+
