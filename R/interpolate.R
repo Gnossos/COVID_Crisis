@@ -11,44 +11,52 @@ set.seed(1)
 n <- 1e3
 dat <- data.table(
   x = 1:n,
-  y = sin(seq(0,5*pi, length.out = n)) + rnorm(n=n, mean = 0, sd = 0.1)
+#  y = sin(seq(0,5*pi, length.out = n)) + rnorm(n=n, mean = 0, sd = 0.1)
+#  y = exp(x) + rnorm(n=n, mean=0, sd = 0.1)
+  y = exp(x)
 )
 
-approxData <- data.table(
-  with(dat,
+approxData <- as.data.table(
+  data.frame(
+    with(dat,
        approx(x, y, xout = seq(1, n, by = 10), method = "linear")
-       ),
-  method = "approx()"
+    ),
+    method = "approx()"
+  )
 )
 
-splineData <- data.frame(
-  with(dat, 
+splineData <- as.data.table(
+  data.frame(
+    with(dat, 
        spline(x, y, xout = seq(1, n, by = 10))
-  ),
+    ),
   method = "spline()"
+  )
 )
 
-smoothData <- data.frame(
+smoothData <- data.table(
   x = 1:n,
   y = as.vector(smooth(dat$y)),
   method = "smooth()"
 )
 
-loessData.1 <- data.frame(
+loessData.1 <- data.table(
   x = 1:n,
   y = predict(loess(y~x, dat, span = 0.1)),
   method = "loess.1()"
 )
 
-loessData.5 <- data.frame(
+loessData.5 <- data.table(
   x = 1:n,
   y = predict(loess(y~x, dat, span = 0.5)),
   method = "loess.5()"
 )
 
-smoothSplineData <- data.frame(
-  predict(smooth.spline(dat$x,dat$y)),
-  method = "Smooth Spline"
+smoothSplineData <- as.data.table(
+  data.frame(
+    predict(smooth.spline(dat$x,dat$y)),
+    method = "Smooth Spline"
+  )
 )
 
 ggplot(rbind(approxData, splineData, smoothData, loessData.1, loessData.5, smoothSplineData, fill = TRUE), aes(x, y)) + 
@@ -63,7 +71,18 @@ ggplot(rbind(approxData, splineData, smoothData, loessData.1, loessData.5, smoot
 
 
 
-interpolate <- function(x,y,at,method = smooth.spline){
+interpolate <- function(x,y,xout,method = smooth.splinei, span = 0.1){
+# Returns a vector of interpolated values matching xout.
+# First makes a fit, then interpolates everything in xout.
+  
+  fit <- switch(
+    method,
+      "smooth.spline" = {},
+      "approx" = {},
+      "loess" = {},
+      "smooth" = {},
+      "spline" = {},
+  )
   
   
 }
