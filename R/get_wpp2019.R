@@ -66,7 +66,7 @@ UN_object
 #' x <- unique(get_wpp2019()[,.(LocID,Location)])
 #' 
   
-  
+#' For testing: Sweden's LocID is 752,   US is 840, World is 900
  
   
 #' if(is.null(LocID)){
