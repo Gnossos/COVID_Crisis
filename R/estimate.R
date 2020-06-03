@@ -26,9 +26,6 @@ estimate <- function(x,y,xout,method = "approx", span = 0.1){
   
   fit <- switch(
     method,
-      "approx" = {
-               value <- approx(x, y, xout = xout, method = "linear")
-      },
       "loess" = {},
       "smooth" = {},
       "smooth.spline" = {},
